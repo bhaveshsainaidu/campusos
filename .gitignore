@@ -38,4 +38,6 @@ tmp/
 **/.vercel/
 .env.local
 .env.*.local
+push-to-github.bat
+
 
