@@ -24,14 +24,11 @@ services:
         sync: false
 
   # 2. React 18 + Vite Frontend Static Site
-  - type: web
+  - type: static
     name: campusos-frontend
-    runtime: static
     rootDir: campusos-frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
-    plan: free
-    region: oregon
     routes:
       - type: rewrite
         source: /*

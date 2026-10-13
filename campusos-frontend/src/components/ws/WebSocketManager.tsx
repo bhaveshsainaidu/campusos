@@ -26,10 +26,16 @@ export const WebSocketManager: React.FC = () => {
       const client = new Client({
         webSocketFactory: () => {
           try {
+            const rawApiUrl = import.meta.env.VITE_API_URL;
+            const normalizedApiUrl = rawApiUrl
+              ? (rawApiUrl.startsWith('http://') || rawApiUrl.startsWith('https://')
+                  ? rawApiUrl
+                  : `https://${rawApiUrl}`)
+              : '';
             const wsBaseUrl =
               import.meta.env.VITE_WS_URL ||
-              (import.meta.env.VITE_API_URL
-                ? `${import.meta.env.VITE_API_URL.replace(/\/+$/, '')}/ws/campusos`
+              (normalizedApiUrl
+                ? `${normalizedApiUrl.replace(/\/+$/, '')}/ws/campusos`
                 : '/ws/campusos');
             return new SockJS(wsBaseUrl);
           } catch (err) {
