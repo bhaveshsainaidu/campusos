@@ -167,6 +167,42 @@ Default settings run out-of-the-box with local MySQL (`root` / `campusos` on por
 | `DB_PASSWORD` | `campusos` | Database password |
 | `JWT_SECRET` | `(pre-configured 256-bit secret)` | HMAC SHA-256 signing key |
 | `PORT` | `8080` | Spring Boot HTTP port |
+| `CORS_ORIGINS` | `http://localhost:5173` | Comma-separated allowed frontend origins (e.g. `https://campusos.vercel.app,http://localhost:5173`) |
+
+---
+
+## 🚀 Deploying to Vercel & Cloud Architecture
+
+CampusOS consists of a decoupled architecture:
+1. **Frontend (`campusos-frontend`)**: React 18 + Vite SPA ready for instant zero-configuration deployment to **Vercel**.
+2. **Backend (`campusos-backend`)**: Spring Boot 3.3.4 + MySQL service best hosted on a container / JVM platform (e.g., **Render**, **Railway**, **Fly.io**, **AWS**, or **VPS**).
+
+### Deploying the Frontend to Vercel
+
+#### Option 1: Import directly from GitHub (Recommended)
+1. In your [Vercel Dashboard](https://vercel.com/dashboard), click **Add New...** ➔ **Project** and import your CampusOS repository.
+2. In the project configuration:
+   - **Framework Preset**: Vite
+   - **Root Directory**: `campusos-frontend` (or leave default `./` since root `vercel.json` is configured)
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+3. Under **Environment Variables**, add:
+   - `VITE_API_URL`: Your deployed backend URL (e.g., `https://campusos-api.up.railway.app`)
+   - `VITE_WS_URL`: (Optional) Custom WebSocket URL if different from `${VITE_API_URL}/ws/campusos`
+4. Click **Deploy**. Vercel will build and serve your app with full client-side SPA routing (`vercel.json` rewrite included).
+
+#### Option 2: Deploy using Vercel CLI
+```bash
+# Navigate to frontend and deploy
+cd campusos-frontend
+vercel
+```
+
+### Backend CORS Configuration
+When running the backend in production, make sure to set the `CORS_ORIGINS` environment variable to include your Vercel URL:
+```env
+CORS_ORIGINS=https://your-campusos-app.vercel.app,http://localhost:5173
+```
 
 ---
 

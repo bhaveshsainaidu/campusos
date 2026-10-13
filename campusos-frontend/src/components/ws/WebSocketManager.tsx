@@ -26,7 +26,12 @@ export const WebSocketManager: React.FC = () => {
       const client = new Client({
         webSocketFactory: () => {
           try {
-            return new SockJS('/ws/campusos');
+            const wsBaseUrl =
+              import.meta.env.VITE_WS_URL ||
+              (import.meta.env.VITE_API_URL
+                ? `${import.meta.env.VITE_API_URL.replace(/\/+$/, '')}/ws/campusos`
+                : '/ws/campusos');
+            return new SockJS(wsBaseUrl);
           } catch (err) {
             console.warn('Failed to initialize SockJS client', err);
             return null as any;

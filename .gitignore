@@ -32,3 +32,10 @@ tmp/
 
 .git_sub/
 **/.git_sub/
+
+# Vercel & Environment
+.vercel/
+**/.vercel/
+.env.local
+.env.*.local
+

@@ -9,7 +9,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   login: (credentials: { email: string; password: string }) => Promise<void>;
-  setAuth: (response: AuthResponse) => void;
+  setAuth: (response: AuthResponse, emailFallback?: string) => void;
   setUser: (user: User) => void;
   logout: () => void;
   initAuth: () => Promise<void>;

@@ -1,0 +1,11 @@
+{
+  "name": "campusos-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CampusOS Enterprise Academic ERP System",
+  "scripts": {
+    "build": "npm --prefix campusos-frontend run build",
+    "dev": "npm --prefix campusos-frontend run dev",
+    "test": "npm --prefix campusos-frontend run test"
+  }
+}
