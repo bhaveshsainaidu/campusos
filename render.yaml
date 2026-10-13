@@ -1,0 +1,44 @@
+# Render Blueprint for CampusOS (Full Stack Monorepo)
+# Deploys Backend (Docker Java 21) + Frontend (Static Site React/Vite)
+
+services:
+  # 1. Spring Boot Backend Web Service
+  - type: web
+    name: campusos-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+
+  # 2. React 18 + Vite Frontend Static Site
+  - type: web
+    name: campusos-frontend
+    runtime: static
+    rootDir: campusos-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    plan: free
+    region: oregon
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: campusos-backend
+          property: host
